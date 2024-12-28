@@ -2,6 +2,7 @@
 
 import os
 import shutil
+from generate_page import generate_page
 
 source_folder = 'static'
 target_folder = 'public'
@@ -11,6 +12,8 @@ def ___main___():
         os.makedirs(target_folder)
 
     copy_files(source_folder, target_folder)
+
+    generate_page("./content/index.md", "./template.html", "./public/index.html")
 
 
 def copy_files(source_folder, target_folder):
