@@ -1,5 +1,4 @@
 from markdown_blocks import markdown_to_html_node
-# from htmlnode import ParentNode
 from extract_title import extract_title
 import os
 
@@ -20,14 +19,19 @@ def generate_page(from_path, template_path, dest_path):
    
     path_parts = dest_path.split("/")
     dest_dir = "/".join(path_parts[:-1])
-    # print(dest_dir)
     if (not os.path.exists(dest_dir)):
         os.makedirs(dest_dir)
 
-    file = open(dest_path, "w")
+
+    dest_dir = "/".join(path_parts[:-1]) + "/index.html"
+    file = open(dest_dir, "w")
     file.write(output)
     file.close()
-    
-    # print(dest_path)
-    # return output
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    for file in os.listdir(dir_path_content):
+        source_element = dir_path_content + "/" + file
+        if not os.path.isfile(source_element):
+            generate_pages_recursive(source_element, template_path, dest_dir_path + "/" + file)
+        if os.path.isfile(source_element):
+            generate_page(source_element, template_path, dest_dir_path + "/" + file)
